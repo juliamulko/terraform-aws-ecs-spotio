@@ -4,7 +4,7 @@ provider "spotinst" {
 }
 resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
   depends_on   = [module.vpc]
-  region       = data.aws_region.current.name
+  region       = data.aws_region.current_1.name
   name         = var.cluster_name
   cluster_name = var.cluster_name
 
