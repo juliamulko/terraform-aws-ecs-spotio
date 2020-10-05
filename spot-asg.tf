@@ -4,7 +4,7 @@ provider "spotinst" {
 }
 resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
   depends_on   = [module.vpc]
-  region       = data.aws_region.current_1.name
+  region       = data.aws_region.current.name
   name         = var.cluster_name
   cluster_name = var.cluster_name
 
@@ -12,8 +12,8 @@ resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
 
   subnet_ids = var.instance_subnets
 
-  security_group_ids   = var.security_groups_1
-  image_id             = data.aws_ssm_parameter.aws_ecs_ami_1.value
+  security_group_ids   = var.security_groups
+  image_id             = data.aws_ssm_parameter.aws_ecs_ami.value
   iam_instance_profile = aws_iam_instance_profile.ecs-instance-profile.id
 
   key_pair  = var.instance_ssh_key
@@ -29,7 +29,7 @@ resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
 
   tags {
     key   = "Name"
-    value = "${aws_ecs_cluster.application_1.name}-worker"
+    value = "${aws_ecs_cluster.application.name}-worker"
   }
 
   tags {
@@ -48,22 +48,22 @@ resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
   }
 }
 
-data "aws_ssm_parameter" "aws_ecs_ami_1" {
+data "aws_ssm_parameter" "aws_ecs_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
 }
 
-data "aws_region" "current_1" {}
+data "aws_region" "current" {}
 
-data "template_file" "ecs_user_data_1" {
+data "template_file" "ecs_user_data" {
   template = file("${path.module}/data/ecs-user-data.tpl")
 
   vars = {
-    ecs_cluster        = aws_ecs_cluster.application_1.name
-    region             = data.aws_region.current_1.name
+    ecs_cluster        = aws_ecs_cluster.application.name
+    region             = data.aws_region.current.name
     efs_security_group = var.efs_security_group
   }
 }
-resource "aws_security_group" "ecs_app_1" {
+resource "aws_security_group" "ecs_app" {
   name        = "${local.environment}-app-ecs"
   description = "Allow app hosts to communicate"
   vpc_id      = module.vpc.vpc_id
@@ -136,7 +136,7 @@ module "vpc" {
     "subnet_type" = "private"
   }
 }
-resource "aws_ecs_cluster" "application_1" {
+resource "aws_ecs_cluster" "application" {
   name = var.cluster_name
 
   tags = merge(
