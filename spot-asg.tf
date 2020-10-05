@@ -48,13 +48,13 @@ resource "spotinst_ocean_ecs" "ocean-autoscaling-group" {
   }
 }
 
-data "aws_ssm_parameter" "aws_ecs_ami" {
+data "aws_ssm_parameter" "aws_ecs_ami_1" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
 }
 
-data "aws_region" "current" {}
+data "aws_region" "current_1" {}
 
-data "template_file" "ecs_user_data" {
+data "template_file" "ecs_user_data_1" {
   template = file("${path.module}/data/ecs-user-data.tpl")
 
   vars = {
@@ -63,7 +63,7 @@ data "template_file" "ecs_user_data" {
     efs_security_group = var.efs_security_group
   }
 }
-resource "aws_security_group" "ecs_app" {
+resource "aws_security_group" "ecs_app_1" {
   name        = "${local.environment}-app-ecs"
   description = "Allow app hosts to communicate"
   vpc_id      = module.vpc.vpc_id
@@ -136,7 +136,7 @@ module "vpc" {
     "subnet_type" = "private"
   }
 }
-resource "aws_ecs_cluster" "application" {
+resource "aws_ecs_cluster" "application_1" {
   name = var.cluster_name
 
   tags = merge(
