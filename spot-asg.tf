@@ -136,7 +136,16 @@ module "vpc" {
     "subnet_type" = "private"
   }
 }
+resource "aws_ecs_cluster" "application" {
+  name = var.cluster_name
 
+  tags = merge(
+    var.tags,
+    {
+      "Name" = var.cluster_name
+    },
+  )
+}
 
 resource "aws_security_group" "ecs_app" {
   name        = "${local.environment}-app-ecs"
@@ -162,15 +171,5 @@ resource "aws_security_group" "ecs_app" {
     map(
       "Name", "${local.environment}-app-ecs"
     )
-  )
-}
-resource "aws_ecs_cluster" "application" {
-  name = var.cluster_name
-
-  tags = merge(
-    var.tags,
-    {
-      "Name" = var.cluster_name
-    },
   )
 }
