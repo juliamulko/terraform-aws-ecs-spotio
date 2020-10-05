@@ -1,7 +1,7 @@
 output "cluster_id" {
-  value = aws_ecs_cluster.application.id
+  value = aws_ecs_cluster.application_1.id
 }
 
 output "cluster_name" {
-  value = aws_ecs_cluster.application.name
+  value = aws_ecs_cluster.application_1.name
 }
