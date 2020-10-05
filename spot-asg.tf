@@ -59,7 +59,7 @@ data "template_file" "ecs_user_data_1" {
 
   vars = {
     ecs_cluster        = aws_ecs_cluster.application_1.name
-    region             = data.aws_region.current.name
+    region             = data.aws_region.current_1.name
     efs_security_group = var.efs_security_group
   }
 }
