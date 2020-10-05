@@ -10,7 +10,7 @@ locals {
 }
 
 module "ecs-cluster-spot" {
-  source           = "github.com/noamozer/terraform-aws-ecs-spotio?ref=initial-implementation"
+  source           = "github.com/juliamulko/terraform-aws-ecs-spotio?ref=initial-implementation"
   cluster_name     = "${local.environment}-ecs"
   environment      = local.environment
   tags             = local.tags
