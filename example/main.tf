@@ -1,14 +1,3 @@
-provider "aws" {
-  region = "us-east-1" // Change to your prefered region
-}
-locals {
-  environment = "dev" // Change to your environment
-  tags = {
-    "Environment" = local.environment
-    "Application" = "example-app-${local.environment}" // Change to your app name
-  }
-}
-
 module "ecs-cluster-spot" {
   source           = "github.com/juliamulko/terraform-aws-ecs-spotio?ref=initial-implementation"
   cluster_name     = "${local.environment}-ecs"
