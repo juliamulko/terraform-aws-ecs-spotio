@@ -2,7 +2,16 @@ provider "spotinst" {
   account = var.spotinst_account
   token   = var.spotinst_token
 }
-
+provider "aws" {
+  region = "us-east-1" // Change to your prefered region
+}
+locals {
+  environment = "dev" // Change to your environment
+  tags = {
+    "Environment" = local.environment
+    "Application" = "example-app-${local.environment}" // Change to your app name
+  }
+}
 data "aws_ssm_parameter" "aws_ecs_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
 }
